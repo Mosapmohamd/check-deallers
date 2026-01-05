@@ -5,7 +5,8 @@ from transformers import pipeline
 
 app = FastAPI(title="Scammer Detection API")
 
-classifier = pipeline("zero-shot-classification")
+classifier = pipeline("zero-shot-classification",
+    model="facebook/bart-large-mnli")
 
 class TextInput(BaseModel):
     text: str
@@ -24,3 +25,4 @@ def check_scammer(input: TextInput):
         "top_label": result["labels"][0],
         "scores": dict(zip(result["labels"], result["scores"]))
     }
+
